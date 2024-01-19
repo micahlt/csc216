@@ -22,5 +22,4 @@ public class Bench extends AsAvailable {
     public void setPrice(double price) {
         this.price = price;
     }
-
 }

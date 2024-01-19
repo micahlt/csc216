@@ -16,8 +16,9 @@ abstract class MayBeBackordered implements InventoryItem {
             onHand = 0;
         if (backOrderCount > 0) {
             backOrderCount -= amtBought;
-            if (backOrderCount < 0)
+            if (backOrderCount < 0) {
                 backOrderCount = 0;
+            }
         }
     }
 

@@ -26,8 +26,4 @@ public class Preboxed extends MayBeBackordered {
     public void setPrice(double price) {
         item.setPrice(price / itemCount);
     }
-
-    public int getQty() {
-        return item.getQty();
-    }
 }
