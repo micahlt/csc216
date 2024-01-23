@@ -1,0 +1,13 @@
+{
+  // This is a VSCode launch config for Java with unmodularized JavaFX
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Launch with JavaFX",
+      "mainClass": "ButtonShape",
+      "request": "launch",
+      "vmArgs": "--module-path C:\\JavaFX\\lib --add-modules javafx.controls"
+    }
+  ]
+}
