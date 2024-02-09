@@ -8,14 +8,11 @@ public class Pair<P extends Comparable<P>, Q extends Comparable<Q>> implements C
     }
 
     public int compareTo(Pair<P, Q> other) {
-        int firstCompare = other.getFirst().compareTo(this.first);
-        int secondCompare = other.getSecond().compareTo(this.second);
-        if (firstCompare == 0 && secondCompare == 0) {
-            return 0;
-        } else if (firstCompare > secondCompare) {
-            return 1;
+        int firstCompare = this.getFirst().compareTo(other.getFirst());
+        if (firstCompare != 0) {
+            return firstCompare;
         } else {
-            return -1;
+            return this.getSecond().compareTo(other.getSecond());
         }
     }
 
