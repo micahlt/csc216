@@ -1,5 +1,3 @@
-import javax.sound.sampled.Line;
-
 /**
  * Represents a linked implementation of a stack.
  *
