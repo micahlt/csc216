@@ -6,7 +6,8 @@ import java.util.Scanner;
 public class Airport {
     public static void main(String[] args) {
         // SET UP VARIABLES
-        int clock = 0, crashCount = 0, landTime, takeOffTime, maxLandingQueueTime, timeToSimulate;
+        int clock = 0, crashCount = 0, landTime, takeOffTime, maxLandingQueueTime, timeToSimulate, totalLandTime = 0,
+                totalTakeOffTime = 0, planesLanded = 0, planesTookOff = 0;
         double landProbability, takeOffProbability;
         boolean showDebug = false;
         Queue<Plane> toLand = new ArrayDeque<Plane>();
@@ -34,41 +35,44 @@ public class Airport {
         // RUN SIMULATION
         while (clock < timeToSimulate) {
             if (showDebug) {
-                System.out.println("⧖ Current time | " + clock + " min\n-----------------------------");
+                System.out.println("⧖  Current time | " + clock + " min\n-----------------------------");
             }
             if (rand.nextDouble(1) < landProbability) {
-                toLand.add(new Plane(maxLandingQueueTime, clock));
+                toLand.add(new Plane(clock));
                 if (showDebug)
-                    System.out.println("→ Plane enters landing queue | " + toLand.size() + " in queue");
+                    System.out.println("→  Plane enters landing queue | " + toLand.size() + " in queue");
 
             }
             if (rand.nextDouble(1) < takeOffProbability) {
                 toTakeOff.add(new Plane(clock));
                 if (showDebug)
-                    System.out.println("→ Plane enters takeoff queue | " + toTakeOff.size() + " in queue");
+                    System.out.println("→  Plane enters takeoff queue | " + toTakeOff.size() + " in queue");
             }
             if (!toLand.isEmpty()) {
                 if (showDebug)
                     System.out
-                            .println("~ First in landing queue | Entered at minute " + toLand.peek().getTimeEntered());
+                            .println("~  First in landing queue | Entered at minute " + toLand.peek().getTimeEntered());
             }
             if (!toLand.isEmpty() && ((clock - toLand.peek().getTimeEntered()) > maxLandingQueueTime)) {
                 toLand.poll();
                 crashCount++;
                 if (showDebug)
-                    System.out.println("↯ Plane crashes from landing queue | " + toLand.size() + " in queue");
+                    System.out.println("↯  Plane crashes from landing queue | " + toLand.size() + " in queue");
             }
 
             if (!toLand.isEmpty() && ((clock - toLand.peek().getTimeEntered()) >= landTime)) {
                 toLand.poll();
+                planesLanded++;
+                totalLandTime += clock - toLand.peek().getTimeEntered();
                 if (showDebug)
-                    System.out.println("↘ Plane lands from queue | " + toLand.size() + " in queue");
+                    System.out.println("↘  Plane lands from queue | " + toLand.size() + " in queue");
             }
 
             if (!toTakeOff.isEmpty() && ((clock - toTakeOff.peek().getTimeEntered()) >= takeOffTime)) {
-                toTakeOff.poll();
+                totalTakeOffTime += clock - toTakeOff.poll().getTimeEntered();
+                planesTookOff++;
                 if (showDebug)
-                    System.out.println("↗ Plane takes off from queue | " + toTakeOff.size() + " in queue");
+                    System.out.println("↗  Plane takes off from queue | " + toTakeOff.size() + " in queue");
             }
 
             if (showDebug)
@@ -76,9 +80,17 @@ public class Airport {
             clock++;
         }
         System.out.println("-----------------------------\n◈ Simulation ended ◈\n");
-        System.out.println("~ " + toTakeOff.size() + " planes left in takeoff queue");
-        System.out.println("~ " + toLand.size() + " planes left in landing queue");
-        System.out.println("↯ " + crashCount + " planes crashed");
+        System.out.println("~  " + toTakeOff.size() + " planes left in takeoff queue");
+        System.out.println("~  " + toLand.size() + " planes left in landing queue");
+        if (planesLanded > 0) {
+            System.out.println("~  " + ((double) totalLandTime / (double) planesLanded) + " average landing time");
+        }
+        if (planesTookOff > 0) {
+            System.out.println("~  " + ((double) totalTakeOffTime / (double) planesTookOff) + " average takeoff time");
+        }
+        System.out.println("↘  " + planesLanded + " planes landed");
+        System.out.println("↗  " + planesTookOff + " planes took off");
+        System.out.println("↯  " + crashCount + " planes crashed");
         in.close();
     }
 }
