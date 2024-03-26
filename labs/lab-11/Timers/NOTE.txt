@@ -1,0 +1,4 @@
+There is no reason to have any source files here at all, class files
+are perfectly sufficient, but Java refuses to run that way.  Broken, as
+usual.  (Is also useful if you want to recompile for a non-lab computer).
+need to recompile.)
